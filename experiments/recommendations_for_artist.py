@@ -1,7 +1,7 @@
 import sys
 import spotipy
 
-''' shows recommendations for the given genres
+''' shows recommendations for the given artist
 '''
 
 from spotipy.oauth2 import SpotifyClientCredentials
