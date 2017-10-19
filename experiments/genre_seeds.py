@@ -2,8 +2,6 @@ import sys
 import spotipy
 import json
 
-''' shows recommendations for the given artist
-'''
 
 from spotipy.oauth2 import SpotifyClientCredentials
 client_credentials_manager = SpotifyClientCredentials()

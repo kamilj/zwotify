@@ -1,0 +1,27 @@
+<workout_file>
+    <author>Mike Hanney</author>
+    <name>4x3' with bursts playlist</name>
+    <description>This workout targets the specific demands of a twisty TT, crit, MTB or cyclocross course where accelerating out of corners is required without dropping below threshold power.</description>
+    <sportType>bike</sportType>
+    <tags>
+        <tag name="INTERVALS"/>
+    </tags>
+    <workout>
+        <Warmup Duration="300" PowerLow="0.44999996" PowerHigh="0.64999998" pace="32759"/>
+        <SteadyState Duration="180.00002" Power="0.67500001" pace="32759"/>
+        <SteadyState Duration="120.00001" Power="0.85000002" pace="32759"/>
+        <SteadyState Duration="60.000004" Power="0.98000002" pace="32759"/>
+        <SteadyState Duration="30" Power="1.1291506" pace="32759"/>
+        <SteadyState Duration="300" Power="0.85115826" pace="32759"/>
+        <SteadyState Duration="300" Power="0.52499998" pace="32759"/>
+        <IntervalsT Repeat="3" OnDuration="10" OffDuration="50" OnPower="1.6233591" OffPower="0.9901545" pace="32759"/>
+        <SteadyState Duration="240.00002" Power="0.54166645" pace="32759"/>
+        <IntervalsT Repeat="3" OnDuration="10" OffDuration="50.000004" OnPower="1.625" OffPower="0.99000001" pace="32759"/>
+        <SteadyState Duration="240.00002" Power="0.54166692" pace="32759"/>
+        <IntervalsT Repeat="3" OnDuration="10" OffDuration="50" OnPower="1.625" OffPower="0.99000001" pace="32759"/>
+        <SteadyState Duration="240.00002" Power="0.54166645" pace="32759"/>
+        <IntervalsT Repeat="3" OnDuration="10" OffDuration="50" OnPower="1.625" OffPower="0.99000001" pace="32759"/>
+        <SteadyState Duration="240.00002" Power="0.54166645" pace="32759"/>
+        <Cooldown Duration="300" PowerLow="0.57777774" PowerHigh="0.37777779" pace="32759"/>
+    </workout>
+</workout_file>
