@@ -1,0 +1,19 @@
+<workout_file>
+    <author>GCN - Adapted</author>
+    <name>Z5 Hill Attacks</name>
+    <description>Prepare the mind and body for hill attacks.  You are attacking up the hill at the front of the peloton and inflicting devastation upon the peloton.  Attack after attack, the peloton is getting blown apart by your relentless attacks.  
+Warm-up for 10minutes and do 3 x 1minute fast pedaling drills&gt;110rpm. A nice tempo pace for 5minutes and then do (10) x 1minute hill attacks.   Rest for 2 minutes between each.  Cool-down. </description>
+    <sportType>bike</sportType>
+    <tags>
+        <tag name="INTERVALS"/>
+        <tag name="hillattacks"/>
+    </tags>
+    <workout>
+        <SteadyState Duration="600" Power="0.65000004" pace="0"/>
+        <IntervalsT Repeat="3" OnDuration="60" OffDuration="60" OnPower="0.81254828" OffPower="0.50366795" pace="32758"/>
+        <SteadyState Duration="240" Power="0.81254828" pace="32758"/>
+        <IntervalsT Repeat="10" OnDuration="60" OffDuration="120" OnPower="1.0828186" OffPower="0.54227799" pace="32758"/>
+        <SteadyState Duration="300" Power="0.69671816" pace="0"/>
+        <SteadyState Duration="300" Power="0.49980694" pace="0"/>
+    </workout>
+</workout_file>

@@ -1,0 +1,14 @@
+<workout_file>
+    <author>M.Hanney</author>
+    <name>5x6' Z4</name>
+    <description>5x6 min Z4 intervals</description>
+    <sportType>bike</sportType>
+    <tags>
+        <tag name="INTERVALS"/>
+    </tags>
+    <workout>
+        <SteadyState Duration="540" Power="0.65000004" pace="32759"/>
+        <IntervalsT Repeat="5" OnDuration="360" OffDuration="180" OnPower="1.0055985" OffPower="0.6503861" pace="32759"/>
+        <Cooldown Duration="360" PowerLow="0.6503861" PowerHigh="0.25" pace="32759"/>
+    </workout>
+</workout_file>

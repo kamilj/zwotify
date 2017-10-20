@@ -1,0 +1,7 @@
+Type, StartTime, EndTime, Duration, Duration Formatted, Min Intensity, Max Intensity, Tempo)
+SteadyState, 0, 600, 600, 10 mins, 0, 0.65000004, None)
+IntervalsT, 601, 961, 360, 6 mins, 0, 0.81254828, None)
+SteadyState, 962, 1202, 240, 4 mins, 0, 0.81254828, None)
+IntervalsT, 1203, 3003, 1800, 30 mins, 0, 1.0828186, None)
+SteadyState, 3004, 3304, 300, 5 mins, 0, 0.69671816, None)
+SteadyState, 3305, 3605, 300, 5 mins, 0, 0.49980694, None)
