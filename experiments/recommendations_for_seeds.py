@@ -21,16 +21,10 @@ min/max/target_<attribute> - For the tuneable track attributes listed in the doc
 '''
 
 
-def round_to_nearest_second(value):
-    """ takes a floating point number of seconds as a string and returns
-    the number of seconds as an integer """
-    return int(round(float(value)))
-
-
 def human_time(value):
     """ takes a floating point number of seconds as a string and returns
     a humanly readable time in minutes and seconds """
-    seconds = round_to_nearest_second(value)
+    seconds = int(round(float(value)))
     if seconds <= 60:
         return "%d secs" % seconds
 
