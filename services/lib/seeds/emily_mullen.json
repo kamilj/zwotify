@@ -1,0 +1,49 @@
+[
+  {
+    "artists": [
+      {
+        "name": "Linkin Park",
+        "id": "6XyY86QOPPrYVGvF9ch6wz"
+      },
+      {
+        "name": "Walk The Moon",
+        "id": "6DIS6PRrLS3wbnZsf7vYic"
+      },
+      {
+        "name": "Beach Boys",
+        "id": "3oDbviiivRWhXwIE8hxkVV"
+      },
+      {
+        "name": "Keith Urban",
+        "id": "0u2FHSq3ln94y5Q57xazwf"
+      },
+      {
+        "name": "Lost Kings",
+        "id": "3hyEbRtp617pNCuuQjyOmc"
+      }
+    ],
+    "tracks": [
+      {
+        "name": "Spirit In the Sky (Norman Greenbaum)",
+        "id": "spotify:track:0Y2SrByf4G3kbq2nBEHQRn"
+      },
+      {
+        "name": "Wavin’ Flag (K’NAAN)",
+        "id": "spotify:track:0mBREiw4ppCXccM7rsk2RC"
+      },
+      {
+        "name": "Bohemian Rhapsody (Queen, Panic! At the Disco)",
+        "id": "spotify:track:7tFiyTwD0nx5a1eklYtX2J"
+      },
+      {
+        "name": "Where Are you Going (Dave Matthews Band)",
+        "id": "spotify:track:5EjZXJ4nVpw7uI6eso1SFS"
+      },
+      {
+        "name": "Free (Rudimental, Emeli Sande)",
+        "id": "spotify:track:4mQmqrhvswP1AtN4GxxigB"
+      }
+    ],
+    "genres": ["british", "disney", "house", "pop", "work-out"]
+  }
+]

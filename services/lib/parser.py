@@ -2,7 +2,6 @@
 
 import argparse
 import xml.etree.ElementTree as ET
-import textwrap
 
 from classes.power import Power
 from classes.segment import Segment

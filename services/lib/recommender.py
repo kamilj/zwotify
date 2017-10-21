@@ -5,7 +5,19 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from classes.track_attributes import TrackAttributes
 
 
-class Recommender():
+class Recommender:
+    def __init__(self):
+        # self.steady_state_seed_artists = ['spotify:artist:3yDIp0kaq9EFKe07X1X2rz',  # Nile Rodgers
+        #                                   'spotify:artist:0Xf8oDAJYd2D0k3NLI19OV',  # Chic
+        #                                   'spotify:artist:6h3rSZ8VLK7a5vXjEmhfuD',  # The Brothers Johnson
+        #                                   'spotify:artist:6gkWznnJkdkwRPVcmnrays',  # Sister Sledge
+        #                                   'spotify:artist:3VNITwohbvU5Wuy5PC6dsI'  # Kool & The Gang
+        #                                   ]
+
+        self.steady_state_seed_artists = ['3yDIp0kaq9EFKe07X1X2rz',
+                                          '6h3rSZ8VLK7a5vXjEmhfuD',
+                                          '3VNITwohbvU5Wuy5PC6dsI']
+
     def get_track_attrs_for_segment(self, segment):
         '''
         https://developer.spotify.com/web-api/get-recommendations/
@@ -36,6 +48,9 @@ class Recommender():
 
         elif segment.segment_type == "FreeRide" \
                 or segment.segment_type == "SteadyState":
+            # @todo, switch seed artists based on taste selection
+            attrs.artists = self.steady_state_seed_artists
+            attrs.genres = None
             attrs.valence = random.uniform(0.67, 0.78)
             attrs.popularity = random.randrange(85, 90)
             if (segment.power.max_intensity is not None):
@@ -82,7 +97,7 @@ class Recommender():
         print ', '.join("%s: %s" % item for item in attr_vars.items())
 
         results = sp_client.recommendations(
-            seed_artists=None, seed_genres=attrs.genres,
+            seed_artists=attrs.artists, seed_genres=attrs.genres,
             seed_tracks=None,
             limit=20,
             country='US',
