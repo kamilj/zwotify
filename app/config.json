@@ -1,0 +1,8 @@
+{
+  "name": "zwotify-application",
+  "provider": {
+    "profile": "personal",
+    "stage": "dev",
+    "region": "us-west-2"
+  }
+}

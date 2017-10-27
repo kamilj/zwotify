@@ -1,0 +1,30 @@
+# serverless.yml
+
+service: ${file(config.json):name}
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  profile: ${file(config.json):provider.profile}
+  stage: ${file(config.json):provider.stage}
+  region: ${file(config.json):provider.region}
+  environment: ${file(environment.yml):${self:custom.stage}}
+
+plugins:
+  - serverless-api-cloudfront
+
+custom:
+  stage: "${opt:stage, self:provider.stage}"
+  apiCloudFront:
+    logging:
+      bucket: zwotify-app-logs.s3.amazonaws.com
+      prefix: app
+
+functions:
+  app:
+    handler: index.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'

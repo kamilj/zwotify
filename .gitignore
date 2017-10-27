@@ -1,6 +1,9 @@
 # ignore aws creds used by S3 deploy
 aws-credentials.json
 
+# ignore keys stored in environment.yml
+environment.yml
+
 # ignore aws pem and key files
 *.key
 *.pem
