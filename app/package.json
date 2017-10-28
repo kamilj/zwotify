@@ -1,14 +1,19 @@
 {
   "name": "app",
   "version": "1.0.0",
-  "description": "",
+  "description":
+    "Zwift workout file to Spotify Playlist - upload a .zwo file and get a playlist to motivate you through the workout.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Coming soon.\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "mhanney",
+    "url": "https://github.com/mhanney/zwotify"
+  },
+  "license": "Prioprietary",
+  "repository": "git@github.com:mhanney/zwotify.git",
   "dependencies": {
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
