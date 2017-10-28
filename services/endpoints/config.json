@@ -1,0 +1,8 @@
+{
+  "name": "zwotify-parser",
+  "provider": {
+    "profile": "personal",
+    "stage": "dev",
+    "region": "us-west-2"
+  }
+}

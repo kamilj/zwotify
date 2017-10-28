@@ -50,14 +50,12 @@ def parse_interval_power(node, state):
     return Power(min_intensity, max_intensity)
 
 
-def convert(input_file):
-    """
-    """
+def parse(xmlstring):
     # combine very short intervals into at least a 4 minute block
     # because the average track length is 3.5 minutes
     min_interval_set_total_duration = 240
     segments = []
-    tree = ET.parse(input_file)
+    tree = ET.ElementTree(ET.fromstring(xmlstring))
     root = tree.getroot()
     workout = root.find("workout")
     time = 0
@@ -98,12 +96,12 @@ def convert(input_file):
                 for interval in range(0, repeat):
                     end_time = time + round_to_nearest_second(on_duration)
                     segments.append(
-                        Segment(time, end_time, "%s On %s" % (node.tag, interval), on_power, cadence))
+                        Segment(time, end_time, node.tag, on_power, cadence, True))
                     time = end_time + 1
 
                     end_time = time + round_to_nearest_second(off_duration)
                     segments.append(
-                        Segment(time, end_time, "%s Off %s" % (node.tag, interval), off_power, cadence_resting))
+                        Segment(time, end_time, node.tag, off_power, cadence_resting, False))
                     time = end_time + 1
 
     return segments
@@ -131,14 +129,15 @@ def main():
 
     text_file = open(outfile, "w")
 
-    with args.file as file:
-        segments = convert(file)
+    with args.file as input_file:
+        xmlstring = input_file.read()
+        segments = parse(xmlstring)
         text_file.write(
             'Type, StartTime, EndTime, Duration, Duration Formatted, Min Intensity, Max Intensity, Tempo)\n')
 
         for segment in segments:
-            text_file.write('%s, %s, %s, %s, %s, %s, %s, %s)\n' % (segment.segment_type, segment.start_time,
-                                                                   segment.end_time, segment.duration(), segment.human_duration(), segment.power.min_intensity, segment.power.max_intensity, segment.cadence))
+            text_file.write('%s, %s, %s, %s, %s, %s, %s, %s\n' % (segment.segment_type, segment.start_time,
+                                                                  segment.end_time, segment.duration(), segment.human_duration(), segment.power.min_intensity, segment.power.max_intensity, segment.cadence))
 
 
 if __name__ == '__main__':

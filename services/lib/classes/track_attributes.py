@@ -29,13 +29,15 @@ class TrackAttributes:
 
     '''
 
-    def __init__(self, genres=None, artists=None, duration_ms=None, danceability=None, energy=None, popularity=None, min_tempo=None, max_tempo=None, target_tempo=None, valence=None, speechiness=None):
+    def __init__(self, genres=None, artists=None, tracks=None, duration_ms=None, danceability=None, energy=None, popularity=None, min_tempo=None, max_tempo=None, target_tempo=None, valence=None):
         if genres is None:
-            self.genres = ['electro', 'work-out', 'house', 'pop']
+            self.genres = ['work-out']
         else:
             self.genres = genres
 
         self.artists = artists
+
+        self.tracks = tracks
 
         if duration_ms is None:
             self.duration_ms = 3.5 * 60 * 1000
@@ -76,8 +78,3 @@ class TrackAttributes:
             self.valence = 0.8
         else:
             self.valence = valence
-
-        if speechiness is None:
-            self.speechiness = 0.5
-        else:
-            self.speechiness = speechiness

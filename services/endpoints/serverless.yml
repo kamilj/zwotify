@@ -1,0 +1,41 @@
+service: ${file(config.json):name}
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: python2.7
+  profile: ${file(config.json):provider.profile}
+  stage: ${file(config.json):provider.stage}
+  region: ${file(config.json):provider.region}
+
+package:
+  include:
+    - ../lib/classes/*
+    - ../lib/*
+  exclude:
+    - build/*
+    - .serverless
+    - config.json
+    - serverless.yml  
+
+functions:
+  parse:
+    memorySize: 128
+    timeout: 10
+    handler: parser-handler.parse
+    events:
+      - http:
+          path: /
+          method: post
+          cors:
+            origins:
+              - '*'              
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - Cache-Control
+              - X-ApiSession

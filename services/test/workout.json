@@ -1,0 +1,122 @@
+[
+  {
+    "cadence": null,
+    "end_time": 180,
+    "power": {
+      "max_intensity": "0.50449997",
+      "min_intensity": 0
+    },
+    "segment_type": "SteadyState",
+    "start_time": 0
+  },
+  {
+    "cadence": "110",
+    "end_time": 421,
+    "power": {
+      "max_intensity": "1.7544999",
+      "min_intensity": 0
+    },
+    "segment_type": "IntervalsT",
+    "start_time": 181
+  },
+  {
+    "cadence": "95",
+    "end_time": 602,
+    "power": {
+      "max_intensity": "0.70449996",
+      "min_intensity": 0
+    },
+    "segment_type": "SteadyState",
+    "start_time": 422
+  },
+  {
+    "cadence": null,
+    "end_time": 723,
+    "power": {
+      "max_intensity": "0.50449997",
+      "min_intensity": 0
+    },
+    "segment_type": "SteadyState",
+    "start_time": 603
+  },
+  {
+    "cadence": "90",
+    "end_time": 1024,
+    "power": {
+      "max_intensity": "0.90449995",
+      "min_intensity": 0
+    },
+    "segment_type": "SteadyState",
+    "start_time": 724
+  },
+  {
+    "cadence": "85",
+    "end_time": 1205,
+    "power": {
+      "max_intensity": "0.50449997",
+      "min_intensity": 0
+    },
+    "segment_type": "SteadyState",
+    "start_time": 1025
+  },
+  {
+    "cadence": "95",
+    "end_time": 1556,
+    "power": {
+      "max_intensity": "1.0944999",
+      "min_intensity": 0
+    },
+    "segment_type": "IntervalsT",
+    "start_time": 1206
+  },
+  {
+    "cadence": "85",
+    "end_time": 1857,
+    "power": {
+      "max_intensity": "0.50449997",
+      "min_intensity": 0
+    },
+    "segment_type": "SteadyState",
+    "start_time": 1557
+  },
+  {
+    "cadence": "95",
+    "end_time": 2158,
+    "power": {
+      "max_intensity": "1.0944999",
+      "min_intensity": 0
+    },
+    "segment_type": "IntervalsT",
+    "start_time": 1858
+  },
+  {
+    "cadence": "85",
+    "end_time": 2459,
+    "power": {
+      "max_intensity": "0.50449997",
+      "min_intensity": 0
+    },
+    "segment_type": "SteadyState",
+    "start_time": 2159
+  },
+  {
+    "cadence": "95",
+    "end_time": 2760,
+    "power": {
+      "max_intensity": "1.0944999",
+      "min_intensity": 0
+    },
+    "segment_type": "IntervalsT",
+    "start_time": 2460
+  },
+  {
+    "cadence": "85",
+    "end_time": 3061,
+    "power": {
+      "max_intensity": "0.50449997",
+      "min_intensity": 0
+    },
+    "segment_type": "SteadyState",
+    "start_time": 2761
+  }
+]
