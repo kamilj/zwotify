@@ -46,7 +46,7 @@ def main():
     print_results(results)
 
     print 'IntervalsT, power 75% - 150%, rpm 120\n'
-    segment = Segment(0, 600, "IntervalsT", Power(0.75, 1.5), 120)
+    segment = Segment(0, 800, "IntervalsT", Power(0.75, 1.5), 120)
     results = recommender.get_tracks_for_segment(segment)
     print_results(results)
 
