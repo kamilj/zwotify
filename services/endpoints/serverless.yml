@@ -8,11 +8,15 @@ provider:
   profile: ${file(config.json):provider.profile}
   stage: ${file(config.json):provider.stage}
   region: ${file(config.json):provider.region}
+  environment: ${file(environment.yml):${self:custom.stage}}
+
+custom:
+  stage: "${opt:stage, self:provider.stage}"
 
 package:
   include:
-    - ../lib/classes/*
-    - ../lib/*
+    - ../lib/**/*
+    - ../seeds/*    
   exclude:
     - build/*
     - .serverless
@@ -26,7 +30,26 @@ functions:
     handler: parser-handler.parse
     events:
       - http:
-          path: /
+          path: /parse
+          method: post
+          cors:
+            origins:
+              - '*'              
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - Cache-Control
+              - X-ApiSession
+  recommend:
+    memorySize: 128
+    timeout: 30
+    handler: recommender-handler.recommend
+    events:
+      - http:
+          path: /recommend
           method: post
           cors:
             origins:

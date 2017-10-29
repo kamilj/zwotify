@@ -1,7 +1,10 @@
 import sys
+import json
 from os import path
 
-sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+localDir = path.dirname(path.realpath(__file__))
+sys.path.append(path.join(localDir, "../lib"))
+sys.path.append(path.join(localDir, "../seeds"))
 
 from recommender import Recommender
 from classes.power import Power
@@ -24,36 +27,51 @@ def human_time(value):
 
 
 def print_results(results):
-    for track in results['tracks']:
-        print '%s - %s - %s - explicit %s' % (track['name'],
-                                              track['artists'][0]['name'], human_time(
-            track['duration_ms'] / 1000),
-            track['explicit'])
-    print '\n'
+    # for track in results['tracks']:
+        # print '%s - %s - %s - explicit %s' % (track['name'],
+        #                                       track['artists'][0]['name'], human_time(
+        #     track['duration_ms'] / 1000),
+        #     track['explicit'])
+
+    print json.dumps(results['tracks'], indent=4, sort_keys=True)
 
 
 def main():
     recommender = Recommender()
 
-    print 'Warmup, power 20% - 45%, rpm 90\n'
-    segment = Segment(0, 600, "Warmup", Power(0.20, 0.45), 90)
+    influencer = '..\seeds\mike_hanney.json'
+
+    # influencer = '..\seeds\emily_mullen.json'
+
+    with open(influencer) as json_data:
+        influences = json.load(json_data)
+        # print(influences)
+
+    recommender.artists = [a['id'] for a in influences['artists']]
+
+    recommender.tracks = [t['id'] for t in influences['tracks']]
+
+    recommender.genres = influences['genres']
+
+    # print 'Warmup, power 20% - 45%, rpm 90\n'
+    # segment = Segment(0, 600, "Warmup", Power(0.20, 0.45), 90)
+    # results = recommender.get_tracks_for_segment(segment)
+    # print_results(results)
+
+    # print 'SteadyState, power 45% - 75%, rpm 90\n'
+    # segment = Segment(0, 600, "SteadyState", Power(0.45, 0.75), 90)
+    # results = recommender.get_tracks_for_segment(segment)
+    # print_results(results)
+
+    print 'IntervalsT, power 75% - 150%, rpm 90\n'
+    segment = Segment(0, 1600, "IntervalsT", Power(0.75, 1.5), 90)
     results = recommender.get_tracks_for_segment(segment)
     print_results(results)
 
-    print 'SteadyState, power 45% - 75%, rpm 90\n'
-    segment = Segment(0, 600, "SteadyState", Power(0.45, 0.75), 90)
-    results = recommender.get_tracks_for_segment(segment)
-    print_results(results)
-
-    print 'IntervalsT, power 75% - 150%, rpm 120\n'
-    segment = Segment(0, 800, "IntervalsT", Power(0.75, 1.5), 120)
-    results = recommender.get_tracks_for_segment(segment)
-    print_results(results)
-
-    print 'CoolDown, power 25% - 45%, rpm 90\n'
-    segment = Segment(0, 600, "CoolDown", Power(0.25, 0.45), 90)
-    results = recommender.get_tracks_for_segment(segment)
-    print_results(results)
+    # print 'CoolDown, power 25% - 45%, rpm 90\n'
+    # segment = Segment(0, 600, "CoolDown", Power(0.25, 0.45), 90)
+    # results = recommender.get_tracks_for_segment(segment)
+    # print_results(results)
 
 
 if __name__ == '__main__':

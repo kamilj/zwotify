@@ -1,117 +1,115 @@
-[
-  {
-    "artists": [
-      {
-        "name": "Led Zeppelin",
-        "id": "36QJpDe2go2KgaRleHCDTp"
-      },
-      {
-        "name": "Prince",
-        "id": "5a2EaR3hamoenG9rDuVn8j"
-      },
-      {
-        "name": "David Bowie",
-        "id": "0oSGxfWSnnOXhD2fKuz2Gy"
-      },
-      {
-        "name": "Duran Duran",
-        "id": "0lZoBs4Pzo7R89JM9lxwoT"
-      },
-      {
-        "name": "Michael Jackson",
-        "id": "3fMbdgg4jU18AjLCKBhRSm"
-      },
-      {
-        "name": "Britney Spears",
-        "id": "26dSoYclwsYLMAKD3tpOr4"
-      },
-      {
-        "name": "Nile Rodgers",
-        "id": "3yDIp0kaq9EFKe07X1X2rz"
-      },
-      {
-        "name": "Chic",
-        "id": "0Xf8oDAJYd2D0k3NLI19OV"
-      },
-      {
-        "name": "The Brothers Johnson",
-        "id": "6h3rSZ8VLK7a5vXjEmhfuD"
-      },
-      {
-        "name": "Sister Sledge",
-        "id": "6gkWznnJkdkwRPVcmnrays"
-      },
-      {
-        "name": "Kool & The Gang",
-        "id": "3VNITwohbvU5Wuy5PC6dsI"
-      },
-      {
-        "name": "The Doobie Brothers",
-        "id": "39T6qqI0jDtSWWioX8eGJz"
-      },
-      {
-        "name": "ABBA",
-        "id": "0LcJLqbBmaGUft1e9Mm8HV"
-      }
-    ],
-    "tracks": [
-      {
-        "name": "Got to Be Real - Cheryl Lynn",
-        "id": "58r4JuwHhXLAkttkaUZfLw"
-      },
-      {
-        "name": "He's The Greatest Dancer - Sister Sledge",
-        "id": "5MuNxNox3zTanAFIO5KcTl"
-      },
-      {
-        "name": "Forget Me Nots - Patrice Rushen",
-        "id": "6PUJEckAKg4Mp47VFZxdpJ"
-      },
-      {
-        "name": "Holding Out for a Hero - Bonnie Tyler",
-        "id": "7L2eFj0KFJDmHTPMUL4ZxR"
-      },
-      {
-        "name": "Holiday - Madonna",
-        "id": "4k6ktr10Hczmh55NY3LfJy"
-      },
-      {
-        "name": "Livin' On A Prayer - Bon Jovi",
-        "id": "0J6mQxEZnlRt9ymzFntA6z"
-      },
-      {
-        "name": "Flash - Queen",
-        "id": "6tYYT8zNxkadSCujCdR6Ur"
-      },
-      {
-        "name": "Take On Me - A-ha",
-        "id": "2WfaOiMkCvy7F5fcp2zZ8L"
-      },
-      {
-        "name": "Take On Me - A-ha",
-        "id": "2WfaOiMkCvy7F5fcp2zZ8L"
-      },
-      {
-        "name": "Born to Run - Bruce Springsteen",
-        "id": "6hTcuIQa0sxrrByu9wTD7s"
-      },
-      {
-        "name": "Sweet Child O' Mine - Guns N' Roses",
-        "id": "4MhTFsyqIJnjsOweVcU8ug"
-      },
-      {
-        "name": "Burning Heart - Survivor",
-        "id": "2avaSeKHI5l4sLruVfLdi2"
-      },
-      {
-        "name": "Call Me - Go West",
-        "id": "6BFGGMB7hkqCtFBLIYjEHJ"
-      },
-      {
-        "name": "Private Eyes - Daryl Hall & John Oates",
-        "id": "5HQ639Z3ms3hnZx0KfWnkp"
-      }
-    ],
-    "genres": ["rock", "funk", "pop", "electro", "disco"]
-  }
-]
+{
+  "artists": [
+    {
+      "name": "Led Zeppelin",
+      "id": "36QJpDe2go2KgaRleHCDTp"
+    },
+    {
+      "name": "Prince",
+      "id": "5a2EaR3hamoenG9rDuVn8j"
+    },
+    {
+      "name": "David Bowie",
+      "id": "0oSGxfWSnnOXhD2fKuz2Gy"
+    },
+    {
+      "name": "Duran Duran",
+      "id": "0lZoBs4Pzo7R89JM9lxwoT"
+    },
+    {
+      "name": "Michael Jackson",
+      "id": "3fMbdgg4jU18AjLCKBhRSm"
+    },
+    {
+      "name": "Britney Spears",
+      "id": "26dSoYclwsYLMAKD3tpOr4"
+    },
+    {
+      "name": "Nile Rodgers",
+      "id": "3yDIp0kaq9EFKe07X1X2rz"
+    },
+    {
+      "name": "Chic",
+      "id": "0Xf8oDAJYd2D0k3NLI19OV"
+    },
+    {
+      "name": "The Brothers Johnson",
+      "id": "6h3rSZ8VLK7a5vXjEmhfuD"
+    },
+    {
+      "name": "Sister Sledge",
+      "id": "6gkWznnJkdkwRPVcmnrays"
+    },
+    {
+      "name": "Kool & The Gang",
+      "id": "3VNITwohbvU5Wuy5PC6dsI"
+    },
+    {
+      "name": "The Doobie Brothers",
+      "id": "39T6qqI0jDtSWWioX8eGJz"
+    },
+    {
+      "name": "ABBA",
+      "id": "0LcJLqbBmaGUft1e9Mm8HV"
+    }
+  ],
+  "tracks": [
+    {
+      "name": "Got to Be Real - Cheryl Lynn",
+      "id": "58r4JuwHhXLAkttkaUZfLw"
+    },
+    {
+      "name": "He's The Greatest Dancer - Sister Sledge",
+      "id": "5MuNxNox3zTanAFIO5KcTl"
+    },
+    {
+      "name": "Forget Me Nots - Patrice Rushen",
+      "id": "6PUJEckAKg4Mp47VFZxdpJ"
+    },
+    {
+      "name": "Holding Out for a Hero - Bonnie Tyler",
+      "id": "7L2eFj0KFJDmHTPMUL4ZxR"
+    },
+    {
+      "name": "Holiday - Madonna",
+      "id": "4k6ktr10Hczmh55NY3LfJy"
+    },
+    {
+      "name": "Livin' On A Prayer - Bon Jovi",
+      "id": "0J6mQxEZnlRt9ymzFntA6z"
+    },
+    {
+      "name": "Flash - Queen",
+      "id": "6tYYT8zNxkadSCujCdR6Ur"
+    },
+    {
+      "name": "Take On Me - A-ha",
+      "id": "2WfaOiMkCvy7F5fcp2zZ8L"
+    },
+    {
+      "name": "Take On Me - A-ha",
+      "id": "2WfaOiMkCvy7F5fcp2zZ8L"
+    },
+    {
+      "name": "Born to Run - Bruce Springsteen",
+      "id": "6hTcuIQa0sxrrByu9wTD7s"
+    },
+    {
+      "name": "Sweet Child O' Mine - Guns N' Roses",
+      "id": "4MhTFsyqIJnjsOweVcU8ug"
+    },
+    {
+      "name": "Burning Heart - Survivor",
+      "id": "2avaSeKHI5l4sLruVfLdi2"
+    },
+    {
+      "name": "Call Me - Go West",
+      "id": "6BFGGMB7hkqCtFBLIYjEHJ"
+    },
+    {
+      "name": "Private Eyes - Daryl Hall & John Oates",
+      "id": "5HQ639Z3ms3hnZx0KfWnkp"
+    }
+  ],
+  "genres": ["rock", "funk", "pop", "electro", "disco"]
+}

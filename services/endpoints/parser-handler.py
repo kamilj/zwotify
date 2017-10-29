@@ -9,7 +9,7 @@ sys.path.append(os.path.join(localDir, "./"))
 
 # Outside a virtualenv, sys.real_prefix should not exist.
 # if not in virtualenv, then we are running at aws
-# and need to get parser from the ../lib dir
+# and need to get parser from the lib dir
 if not hasattr(sys, 'real_prefix'):
     sys.path.append(os.path.join(localDir, "lib"))
 
