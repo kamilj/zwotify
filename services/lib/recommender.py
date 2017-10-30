@@ -27,7 +27,8 @@ class Recommender:
                  tracks=None,
                  max_tracks=None,
                  genres=None,
-                 max_genres=None):
+                 max_genres=None,
+                 allow_explicit_lyrics=False):
         client_credentials_manager = SpotifyClientCredentials()
 
         self.artists = artists
@@ -50,6 +51,8 @@ class Recommender:
             self.max_genres = 1
         else:
             self.max_genres = max_genres
+
+        self.allow_explicit_lyrics = allow_explicit_lyrics
 
         self.sp_client = spotipy.Spotify(
             client_credentials_manager=client_credentials_manager)
@@ -147,7 +150,7 @@ class Recommender:
     def find_combination(self, choices, total):
         '''
         Subset sum - find the smallest set of
-        integers from the choices pool that add up to the total
+        integers from the choices pool that add up to the total,
         as close as possible without going over.
         https://en.wikipedia.org/wiki/Subset_sum_problem
 
@@ -192,8 +195,18 @@ class Recommender:
 
         tracks = results['tracks']
 
-        print (
-            '%d recommendations found. Arranging to fit workout segment.' % len(tracks))
+        print ('%d recommendations found.' % len(tracks))
+
+        if (not self.allow_explicit_lyrics):
+            print ('Filtering out tracks with explicit lyrics.')
+
+            filtered_tracks = [
+                track for track in tracks if not track['explicit']]
+            tracks = filtered_tracks
+
+            print ('%d recommendations remaining after filtering.' % len(tracks))
+
+        print ('Arranging tracks to fit workout segment duration.')
 
         tracks.sort(key=self.extract_duration_ms, reverse=False)
 
@@ -204,7 +217,7 @@ class Recommender:
         for track in tracks:
             durations.append(track['duration_ms'])
 
-        print (durations)
+        # print (durations)
 
         print ('finding optimal combination of tracks to match segment duration')
 
@@ -232,16 +245,13 @@ class Recommender:
                 total_duration_of_found_tracks += tracks[x]['duration_ms']
                 duration_matched_tracks.append(tracks[x])
 
-        diff_direction = 'over'
+        print('Needed %d s of music, got %d s, shortfall of %d s\n' % (segment_duration_ms / 1000,
+                                                                       total_duration_of_found_tracks / 1000, (segment_duration_ms - total_duration_of_found_tracks) / 1000))
 
-        if (segment_duration_ms - total_duration_of_found_tracks) > 0:
-            diff_direction = 'under'
+        # todo, keep sum of shortfall
 
-        print('Needed %d s of music, got %d s, difference %d s %s' % (segment_duration_ms / 1000,
-                                                                      total_duration_of_found_tracks / 1000, (segment_duration_ms - total_duration_of_found_tracks) / 1000, diff_direction))
-
-        for track in duration_matched_tracks:
-            print track['name'], '-', track['artists'][0]['name']
+        # for track in duration_matched_tracks:
+        #     print track['name'], '-', track['artists'][0]['name']
 
         # return json.dumps(tracks, indent=4, sort_keys=True)
 

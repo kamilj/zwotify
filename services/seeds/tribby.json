@@ -1,0 +1,82 @@
+{
+  "artists": [
+    {
+      "name": "Linkin Park",
+      "id": "6XyY86QOPPrYVGvF9ch6wz"
+    },
+    {
+      "name": "Britney Spears",
+      "id": "26dSoYclwsYLMAKD3tpOr4"
+    },
+    {
+      "name": "Eminem",
+      "id": "7dGJo4pcD2V6oG8kP0tJRR"
+    },
+    {
+      "name": "Beyonce",
+      "id": "6vWDO969PvNqNYHIOW5v0m"
+    },
+    {
+      "name": "Kanye West",
+      "id": "5K4W6rqBFWDnAN6FQUkS6x"
+    }
+  ],
+  "tracks": [
+    {
+      "name": "On The Floor - Jenifer Lopez, featuring Pitbull",
+      "id": "0Oe49j06Bjrxs8PltuVeaW"
+    },
+    {
+      "name": "Single Ladies - Beyonce ",
+      "id": "5R9a4t5t5O0IsznsrKPVro"
+    },
+    {
+      "name": "'Till I Collapse - Eminem, featuring Nate Dogg",
+      "id": "6p4SUKhIyPqbmU828M0JWD"
+    },
+    {
+      "name": "Carry Out - Justin Timberlake",
+      "id": "2DHc2e5bBn4UzY0ENVFrUl"
+    },
+    {
+      "name": "Stronger - Kanye West",
+      "id": "6C7RJEIUDqKkJRZVWdkfkH"
+    },
+    {
+      "name": "Numb / Encore - JAY Z, Linkin Park",
+      "id": "7dyluIqv7QYVTXXZiMWPHW"
+    },
+    {
+      "name": "Boom - P.O.D",
+      "id": "5DooySfCD1xCJ49gQm9rx7"
+    },
+    {
+      "name": "Work Bitch - Britney Spears",
+      "id": "3KliPMvk1EvFZu9cvkj8p1"
+    },
+    {
+      "name": "Five More Hours - Deorro, Chris Brown",
+      "id": "6YwLgicpvVuMt1eE2OldwQ"
+    },
+    {
+      "name": "Baby - Justin Bieber, Ludacris",
+      "id": "6epn3r7S14KUqlReYr77hA"
+    }
+  ],
+  "genres": [
+    "indie",
+    "modern",
+    "post-grunge",
+    "post-teen",
+    "detroit hip hop",
+    "g funk",
+    "hip hop",
+    "pop rap",
+    "rap",
+    "dance",
+    "alternative",
+    "rock",
+    "pop",
+    "garage"
+  ]
+}

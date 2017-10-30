@@ -27,22 +27,24 @@ def human_time(value):
 
 
 def print_results(results):
-    # for track in results['tracks']:
-        # print '%s - %s - %s - explicit %s' % (track['name'],
-        #                                       track['artists'][0]['name'], human_time(
-        #     track['duration_ms'] / 1000),
-        #     track['explicit'])
+    for track in results:
+        print '%s - %s - %s - explicit %s' % (track['name'],
+                                              track['artists'][0]['name'], human_time(
+            track['duration_ms'] / 1000),
+            track['explicit'])
 
     # print json.dumps(results['tracks'], indent=4, sort_keys=True)
-    print json.dumps(results, indent=4, sort_keys=True)
+    # print json.dumps(results, indent=4, sort_keys=True)
 
 
 def main():
     recommender = Recommender()
 
-    influencer = '..\seeds\mike_hanney.json'
+    #influencer = '..\seeds\mike.json'
 
-    # influencer = '..\seeds\emily_mullen.json'
+    influencer = '..\\seeds\\tribby.json'
+
+    # influencer = '..\seeds\emily.json'
 
     with open(influencer) as json_data:
         influences = json.load(json_data)

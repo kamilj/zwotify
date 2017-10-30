@@ -49,8 +49,9 @@ def recommend(event, context=None):
 
     recommender = Recommender()
 
+    # @todo, pass influencer seeds as argument
     influencer = os.path.join(os.path.join(
-        local_dir, 'seeds'), 'mike_hanney.json')
+        local_dir, 'seeds'), 'mike.json')
 
     with open(influencer) as json_data:
         influences = json.load(json_data)
