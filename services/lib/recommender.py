@@ -1,4 +1,19 @@
+import os
+import sys
 import random
+import json
+import itertools
+
+local_dir = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(local_dir, "./"))
+
+# Outside a virtualenv, sys.real_prefix should not exist.
+# if not in virtualenv, then we are running at aws
+# and need to get shapely and numpy from the ../lib dir
+if not hasattr(sys, 'real_prefix'):
+    sys.path.append(os.path.join(local_dir, "./lib"))
+
+import numpy as np
 import spotipy
 
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -38,7 +53,9 @@ class Recommender:
 
         self.sp_client = spotipy.Spotify(
             client_credentials_manager=client_credentials_manager)
-        self.sp_client.trace = True
+        self.sp_client.trace = False
+
+        self.max_recommendations = 17
 
     def sample(self, iterable, n):
         """
@@ -127,17 +144,44 @@ class Recommender:
 
         return attrs
 
+    def find_combination(self, choices, total):
+        '''
+        Subset sum - find the smallest set of
+        integers from the choices pool that add up to the total
+        as close as possible without going over.
+        https://en.wikipedia.org/wiki/Subset_sum_problem
+
+        @todo - Optimize. This implementation works, but is very slow and uses
+        a ton of memory.
+        '''
+        bins = np.array(
+            list(itertools.product([0, 1], repeat=len(choices))))
+        combinations = [b for b in bins if sum(choices * b) == total]
+        return (min(combinations, key=sum) if combinations else
+                max([b for b in bins if sum(choices * b) < total], key=sum))
+
+    def extract_duration_ms(self, json):
+        try:
+            return json['duration_ms']
+        except KeyError:
+            return 0
+
     def get_tracks_for_segment(self, segment):
         attrs = self.get_track_attrs_for_segment(segment)
 
         # attr_vars = vars(attrs)
         # print ', '.join("%s: %s" % item for item in attr_vars.items())
 
+        segment_duration_ms = segment.duration() * 1000
+
+        print('finding recommendation track(s) to match segment length %s' %
+              segment_duration_ms)
+
         results = self.sp_client.recommendations(
             seed_artists=attrs.artists,
             seed_genres=attrs.genres,
             seed_tracks=None,
-            limit=10,
+            limit=self.max_recommendations,
             country='US',
             target_energy=attrs.energy,
             target_danceability=attrs.danceability,
@@ -146,4 +190,59 @@ class Recommender:
             target_duration=attrs.duration_ms
         )
 
-        return results
+        tracks = results['tracks']
+
+        print (
+            '%d recommendations found. Arranging to fit workout segment.' % len(tracks))
+
+        tracks.sort(key=self.extract_duration_ms, reverse=False)
+
+        print ('tracks sorted by duration')
+
+        durations = []
+
+        for track in tracks:
+            durations.append(track['duration_ms'])
+
+        print (durations)
+
+        print ('finding optimal combination of tracks to match segment duration')
+
+        # the combination stores a 0 or 1 in order
+        # of the tracks sorted by duration
+        # where if we take all the tracks with a 1
+        # the sum of the durations is as close as possible
+        # to the workout segment length without going over it.
+        # e.g. if combination is [0,0,1,1,0] then we pick the
+        # tracks at index positions 2,3.
+        # The more tracks we request from the recommendations API
+        # the more accurately we can match the duration, however,
+        # the brute force subset sub alogrithm is pretty slow
+        combination = self.find_combination(
+            durations, segment_duration_ms)
+
+        print ('optimal combination durations found')
+
+        duration_matched_tracks = []
+
+        total_duration_of_found_tracks = 0
+
+        for x in range(0, len(tracks)):
+            if combination[x] == 1:
+                total_duration_of_found_tracks += tracks[x]['duration_ms']
+                duration_matched_tracks.append(tracks[x])
+
+        diff_direction = 'over'
+
+        if (segment_duration_ms - total_duration_of_found_tracks) > 0:
+            diff_direction = 'under'
+
+        print('Needed %d s of music, got %d s, difference %d s %s' % (segment_duration_ms / 1000,
+                                                                      total_duration_of_found_tracks / 1000, (segment_duration_ms - total_duration_of_found_tracks) / 1000, diff_direction))
+
+        for track in duration_matched_tracks:
+            print track['name'], '-', track['artists'][0]['name']
+
+        # return json.dumps(tracks, indent=4, sort_keys=True)
+
+        return duration_matched_tracks

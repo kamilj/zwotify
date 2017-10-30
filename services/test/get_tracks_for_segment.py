@@ -33,7 +33,8 @@ def print_results(results):
         #     track['duration_ms'] / 1000),
         #     track['explicit'])
 
-    print json.dumps(results['tracks'], indent=4, sort_keys=True)
+    # print json.dumps(results['tracks'], indent=4, sort_keys=True)
+    print json.dumps(results, indent=4, sort_keys=True)
 
 
 def main():
@@ -64,7 +65,7 @@ def main():
     # print_results(results)
 
     print 'IntervalsT, power 75% - 150%, rpm 90\n'
-    segment = Segment(0, 1600, "IntervalsT", Power(0.75, 1.5), 90)
+    segment = Segment(0, 600, "IntervalsT", Power(0.75, 1.5), 90)
     results = recommender.get_tracks_for_segment(segment)
     print_results(results)
 
