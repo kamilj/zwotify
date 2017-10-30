@@ -23,34 +23,20 @@ from classes.track_attributes import TrackAttributes
 class Recommender:
     def __init__(self,
                  artists=None,
-                 max_artists=None,
                  tracks=None,
-                 max_tracks=None,
                  genres=None,
-                 max_genres=None,
-                 allow_explicit_lyrics=False):
+                 allow_explicit_lyrics=False,
+                 crossfade_duration_seconds=None):
         client_credentials_manager = SpotifyClientCredentials()
+
+        # the max number of seed artists, tracks and genres combined
+        self.max_seeds = 5
 
         self.artists = artists
 
-        if max_artists is None:
-            self.max_artists = 2
-        else:
-            self.max_artists = max_artists
-
         self.tracks = tracks
 
-        if max_tracks is None:
-            self.max_tracks = 2
-        else:
-            self.max_tracks = max_tracks
-
         self.genres = genres
-
-        if max_genres is None:
-            self.max_genres = 1
-        else:
-            self.max_genres = max_genres
 
         self.allow_explicit_lyrics = allow_explicit_lyrics
 
@@ -59,6 +45,29 @@ class Recommender:
         self.sp_client.trace = False
 
         self.max_recommendations = 17
+
+        if crossfade_duration_seconds:
+            self.crossfade_duration_seconds = crossfade_duration_seconds
+        else:
+            self.crossfade_duration_seconds = 5
+
+        self.randomize_seed_counts()
+
+    def randomize_seed_counts(self):
+        # tracks are the best seeds, so pick 2 to 4 of those
+        self.seed_tracks_count = random.randint(2, 4)
+
+        # artists are the next best seeds, so mix in
+        # one or more random artists depending on how many seeds slots remain
+        self.seed_artists_count = random.randint(
+            1, self.max_seeds - self.seed_tracks_count)
+
+        # use genres, only if we have a slots left
+        self.seed_genres_count = self.max_seeds - \
+            self.seed_tracks_count - self.seed_artists_count
+
+        print ('using %d tracks, %d artist(s),  %d genre(s)' % (
+            self.seed_tracks_count, self.seed_artists_count, self.seed_genres_count))
 
     def sample(self, iterable, n):
         """
@@ -81,16 +90,23 @@ class Recommender:
         '''
         https://developer.spotify.com/web-api/get-recommendations/
         '''
+
+        # we are expecting get_track_attrs_for_segment to be called
+        # many times for one instance of Recommender,
+        # so randomize the seed tracks, artists and genres for each
+        # invocation  of this function
+        self.randomize_seed_counts()
+
         attrs = TrackAttributes()
 
-        if self.artists:
-            attrs.artists = self.sample(self.artists, self.max_artists)
-
         if self.tracks:
-            attrs.tracks = self.sample(self.tracks, self.max_tracks)
+            attrs.tracks = self.sample(self.tracks, self.seed_tracks_count)
 
-        if self.genres:
-            attrs.genres = self.sample(self.genres, self.max_genres)
+        if self.artists:
+            attrs.artists = self.sample(self.artists, self.seed_artists_count)
+
+        if self.seed_genres_count:
+            attrs.genres = self.sample(self.genres, self.seed_genres_count)
 
         # cadence is not a good selector when used directly
         # but sub-divisions of 4/4, that fit the tempo still work.
@@ -165,7 +181,7 @@ class Recommender:
 
     def extract_duration_ms(self, json):
         try:
-            return json['duration_ms']
+            return json['duration_ms'] - self.crossfade_duration_seconds
         except KeyError:
             return 0
 

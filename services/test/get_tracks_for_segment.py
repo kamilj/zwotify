@@ -56,6 +56,8 @@ def main():
 
     recommender.genres = influences['genres']
 
+    recommender.allow_explicit_lyrics = True
+
     # print 'Warmup, power 20% - 45%, rpm 90\n'
     # segment = Segment(0, 600, "Warmup", Power(0.20, 0.45), 90)
     # results = recommender.get_tracks_for_segment(segment)
@@ -66,8 +68,8 @@ def main():
     # results = recommender.get_tracks_for_segment(segment)
     # print_results(results)
 
-    print 'IntervalsT, power 75% - 150%, rpm 90\n'
-    segment = Segment(0, 600, "IntervalsT", Power(0.75, 1.5), 90)
+    print 'IntervalsT, power 75% - 150%, rpm 120\n'
+    segment = Segment(0, 1600, "IntervalsT", Power(0.75, 1.5), 90)
     results = recommender.get_tracks_for_segment(segment)
     print_results(results)
 
