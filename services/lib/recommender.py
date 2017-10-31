@@ -20,6 +20,21 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from classes.track_attributes import TrackAttributes
 
 
+# '1 second silence'
+# '5V3b2UB9tCAHuqXj2b2EP7'
+
+# '2 second silence'
+# '3huAZrz3oSBP6yE4nCIIYs'
+
+# '3 second silence'
+# '5ltPvGg9hdNxhk93iAVM1f'
+
+# '4 second slience'
+# '3gCqAxfnSNxflYodkSOiFd'
+
+# '5 second slience'
+# '37y25dG9sw4I5zoL17RhcV'
+
 class Recommender:
     def __init__(self,
                  artists=None,
@@ -28,6 +43,11 @@ class Recommender:
                  allow_explicit_lyrics=False,
                  crossfade_duration_seconds=None):
         client_credentials_manager = SpotifyClientCredentials()
+        self.sp_client = spotipy.Spotify(
+            client_credentials_manager=client_credentials_manager)
+        self.sp_client.trace = False
+
+        self.market = 'US'
 
         # the max number of seed artists, tracks and genres combined
         self.max_seeds = 5
@@ -40,10 +60,6 @@ class Recommender:
 
         self.allow_explicit_lyrics = allow_explicit_lyrics
 
-        self.sp_client = spotipy.Spotify(
-            client_credentials_manager=client_credentials_manager)
-        self.sp_client.trace = False
-
         self.max_recommendations = 17
 
         if crossfade_duration_seconds:
@@ -51,22 +67,37 @@ class Recommender:
         else:
             self.crossfade_duration_seconds = 5
 
+        self.filler_track_ids = ['spotify:track:5V3b2UB9tCAHuqXj2b2EP7',
+                                 'spotify:track:3huAZrz3oSBP6yE4nCIIYs',
+                                 'spotify:track:5ltPvGg9hdNxhk93iAVM1f',
+                                 'spotify:track:3gCqAxfnSNxflYodkSOiFd',
+                                 'spotify:track:37y25dG9sw4I5zoL17RhcV',
+                                 ]
+
+        self.filler_tracks = []
+
+        # keep knowledge of which track ids we have
+        # already used in this instance of the Recommender
+        self.used_track_ids = []
+
         self.randomize_seed_counts()
 
+        self.get_filler_tracks()
+
     def randomize_seed_counts(self):
-        # tracks are the best seeds, so pick 2 to 4 of those
-        self.seed_tracks_count = random.randint(2, 4)
+        # tracks are the best seeds, so pick 2 to 3 of those
+        self.seed_tracks_count = random.randint(1, 2)
 
         # artists are the next best seeds, so mix in
         # one or more random artists depending on how many seeds slots remain
         self.seed_artists_count = random.randint(
-            1, self.max_seeds - self.seed_tracks_count)
+            2, self.max_seeds - self.seed_tracks_count)
 
         # use genres, only if we have a slots left
         self.seed_genres_count = self.max_seeds - \
             self.seed_tracks_count - self.seed_artists_count
 
-        print ('using %d tracks, %d artist(s),  %d genre(s)' % (
+        print ('\n\tSeeded using %d tracks, %d artist(s),  %d genre(s)' % (
             self.seed_tracks_count, self.seed_artists_count, self.seed_genres_count))
 
     def sample(self, iterable, n):
@@ -86,6 +117,11 @@ class Recommender:
                     reservoir[m] = item
         return reservoir
 
+    def get_filler_tracks(self):
+        results = self.sp_client.tracks(self.filler_track_ids, self.market)
+        print 'filler tracks length %d' % len(results['tracks'])
+        self.filler_tracks = results['tracks']
+
     def get_track_attrs_for_segment(self, segment):
         '''
         https://developer.spotify.com/web-api/get-recommendations/
@@ -101,12 +137,18 @@ class Recommender:
 
         if self.tracks:
             attrs.tracks = self.sample(self.tracks, self.seed_tracks_count)
+            # for track in attrs.tracks:
+            #     print '\n %s' % track
 
         if self.artists:
             attrs.artists = self.sample(self.artists, self.seed_artists_count)
+            # for artist in attrs.artists:
+            #     print '\n %s' % track
 
         if self.seed_genres_count:
             attrs.genres = self.sample(self.genres, self.seed_genres_count)
+            # for genre in attrs.genres:
+            #     print '\n %s' % genre
 
         # cadence is not a good selector when used directly
         # but sub-divisions of 4/4, that fit the tempo still work.
@@ -127,35 +169,35 @@ class Recommender:
                 attrs.target_tempo = 90
 
         # randomize popularity starting point between 50% and 100%
-        attrs.popularity = random.randrange(50, 100)
+        # attrs.popularity = random.randrange(50, 100)
 
-        if (segment.duration() is not None):
-            attrs.duration_ms = segment.duration() * 1000
+        # if (segment.duration() is not None):
+        #     attrs.duration_ms = segment.duration() * 1000
 
         if segment.segment_type == "Warmup":
             # happyish, we're warming up
-            attrs.valence = random.uniform(0.7, 0.9)
+            #attrs.valence = random.uniform(0.7, 0.9)
             # ignore power, get energy going
-            attrs.energy = random.uniform(0.65, 0.95)
-            if (segment.power.max_intensity is not None):
-                attrs.energy = min(segment.power.max_intensity, 0.75)
+            attrs.energy = random.uniform(0.5, 0.75)
+            # if (segment.power.max_intensity is not None):
+            #     attrs.energy = min(segment.power.max_intensity, 0.75)
 
         elif segment.segment_type == "CoolDown":
             # euphoric, we're done
-            attrs.valence = random.uniform(0.85, 0.95)
+            #attrs.valence = random.uniform(0.85, 0.95)
             # ignore power, high energy celebration
-            attrs.energy = random.uniform(0.8, 0.9)
+            attrs.energy = random.uniform(0.6, 0.8)
 
         elif segment.segment_type == "FreeRide" \
                 or segment.segment_type == "SteadyState":
-            attrs.valence = random.uniform(0.6, 9)
+            #attrs.valence = random.uniform(0.6, 9)
             if (segment.power.max_intensity is not None):
                 attrs.energy = min(segment.power.max_intensity, 0.9)
             else:
                 attrs.energy = random.uniform(0.8, 0.9)  # cooking
 
         elif segment.segment_type == "IntervalsT":
-            attrs.valence = random.uniform(0.8, 0.9)
+            #attrs.valence = random.uniform(0.8, 0.9)
             if (segment.power.max_intensity is not None):
                 attrs.energy = min(segment.power.max_intensity, 1)
             else:
@@ -193,49 +235,65 @@ class Recommender:
 
         segment_duration_ms = segment.duration() * 1000
 
-        print('finding recommendation track(s) to match segment length %s' %
-              segment_duration_ms)
+        # print('finding recommendation track(s) to match segment length %s' %
+        #       segment_duration_ms)
 
         results = self.sp_client.recommendations(
             seed_artists=attrs.artists,
             seed_genres=attrs.genres,
-            seed_tracks=None,
+            seed_tracks=attrs.tracks,
             limit=self.max_recommendations,
             country='US',
             target_energy=attrs.energy,
-            target_danceability=attrs.danceability,
+            # target_danceability=attrs.danceability,
             target_tempo=attrs.target_tempo,
-            target_popularity=attrs.popularity,
-            target_duration=attrs.duration_ms
+            target_popularity=attrs.popularity
+            #,
+            # target_duration=attrs.duration_ms
         )
 
         tracks = results['tracks']
 
-        print ('%d recommendations found.' % len(tracks))
+        # print ('%d recommendations found.' % len(tracks))
 
         if (not self.allow_explicit_lyrics):
-            print ('Filtering out tracks with explicit lyrics.')
+            # print ('Filtering out tracks with explicit lyrics.')
 
             filtered_tracks = [
                 track for track in tracks if not track['explicit']]
+
             tracks = filtered_tracks
 
-            print ('%d recommendations remaining after filtering.' % len(tracks))
+            # print ('%d recommendations remaining after filtering.' % len(tracks))
 
-        print ('Arranging tracks to fit workout segment duration.')
+        # print ('removing tracks already used')
 
-        tracks.sort(key=self.extract_duration_ms, reverse=False)
+        not_used_tracks = []
 
-        print ('tracks sorted by duration')
+        for track in tracks:
+            if track['id'] not in self.filler_track_ids and track['id'] not in self.used_track_ids:
+                not_used_tracks.append(track)
+
+        # print ('%d recommendations remaining after removing already used.' %
+        #       len(not_used_tracks))
+
+        # print ('Arranging tracks to fit workout segment duration.')
+
+        # add the filler tracks to provide short duration options for subset-sum
+        # not_used_tracks.extend(self.filler_tracks)
+
+        not_used_tracks.sort(key=self.extract_duration_ms, reverse=False)
+
+        # print ('tracks sorted by duration')
 
         durations = []
 
-        for track in tracks:
+        for track in not_used_tracks:
             durations.append(track['duration_ms'])
 
         # print (durations)
 
-        print ('finding optimal combination of tracks to match segment duration')
+        # print ('finding optimal combination of tracks to match segment duration')
 
         # the combination stores a 0 or 1 in order
         # of the tracks sorted by duration
@@ -250,19 +308,20 @@ class Recommender:
         combination = self.find_combination(
             durations, segment_duration_ms)
 
-        print ('optimal combination durations found')
+        # print ('optimal combination durations found')
 
         duration_matched_tracks = []
 
         total_duration_of_found_tracks = 0
 
-        for x in range(0, len(tracks)):
+        for x in range(0, len(not_used_tracks)):
             if combination[x] == 1:
-                total_duration_of_found_tracks += tracks[x]['duration_ms']
-                duration_matched_tracks.append(tracks[x])
+                total_duration_of_found_tracks += not_used_tracks[x]['duration_ms']
+                duration_matched_tracks.append(not_used_tracks[x])
+                self.used_track_ids.append(not_used_tracks[x]['id'])
 
-        print('Needed %d s of music, got %d s, shortfall of %d s\n' % (segment_duration_ms / 1000,
-                                                                       total_duration_of_found_tracks / 1000, (segment_duration_ms - total_duration_of_found_tracks) / 1000))
+        print('\tNeeded %d s of music, got %d s, short by %d s\n' % (segment_duration_ms / 1000,
+                                                                     total_duration_of_found_tracks / 1000, (segment_duration_ms - total_duration_of_found_tracks) / 1000))
 
         # todo, keep sum of shortfall
 

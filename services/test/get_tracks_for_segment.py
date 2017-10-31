@@ -28,11 +28,12 @@ def human_time(value):
 
 def print_results(results):
     for track in results:
-        print '%s - %s - %s - explicit %s' % (track['name'],
-                                              track['artists'][0]['name'], human_time(
+        print '\t%s - %s - %s - explicit %s' % (track['name'],
+                                                track['artists'][0]['name'], human_time(
             track['duration_ms'] / 1000),
             track['explicit'])
 
+    print '\n\n'
     # print json.dumps(results['tracks'], indent=4, sort_keys=True)
     # print json.dumps(results, indent=4, sort_keys=True)
 
@@ -58,25 +59,25 @@ def main():
 
     recommender.allow_explicit_lyrics = True
 
-    # print 'Warmup, power 20% - 45%, rpm 90\n'
-    # segment = Segment(0, 600, "Warmup", Power(0.20, 0.45), 90)
-    # results = recommender.get_tracks_for_segment(segment)
-    # print_results(results)
-
-    # print 'SteadyState, power 45% - 75%, rpm 90\n'
-    # segment = Segment(0, 600, "SteadyState", Power(0.45, 0.75), 90)
-    # results = recommender.get_tracks_for_segment(segment)
-    # print_results(results)
-
-    print 'IntervalsT, power 75% - 150%, rpm 120\n'
-    segment = Segment(0, 1600, "IntervalsT", Power(0.75, 1.5), 90)
+    print 'Warmup, 10 mins, power 20% - 45%, rpm 90\n'
+    segment = Segment(0, 600, "Warmup", Power(0.20, 0.45), 90)
     results = recommender.get_tracks_for_segment(segment)
     print_results(results)
 
-    # print 'CoolDown, power 25% - 45%, rpm 90\n'
-    # segment = Segment(0, 600, "CoolDown", Power(0.25, 0.45), 90)
-    # results = recommender.get_tracks_for_segment(segment)
-    # print_results(results)
+    print 'SteadyState, 15 mins, power 45% - 75%, rpm 90\n'
+    segment = Segment(0, 900, "SteadyState", Power(0.45, 0.75), 90)
+    results = recommender.get_tracks_for_segment(segment)
+    print_results(results)
+
+    print 'IntervalsT, 20 mins, power 75% - 150%, rpm 120\n'
+    segment = Segment(0, 1200, "IntervalsT", Power(0.75, 1.5), 90)
+    results = recommender.get_tracks_for_segment(segment)
+    print_results(results)
+
+    print 'CoolDown, 10 mins, power 25% - 45%, rpm 90\n'
+    segment = Segment(0, 600, "CoolDown", Power(0.25, 0.45), 90)
+    results = recommender.get_tracks_for_segment(segment)
+    print_results(results)
 
 
 if __name__ == '__main__':
