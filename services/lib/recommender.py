@@ -85,20 +85,21 @@ class Recommender:
         self.get_filler_tracks()
 
     def randomize_seed_counts(self):
-        # tracks are the best seeds, so pick 2 to 3 of those
-        self.seed_tracks_count = random.randint(1, 2)
+        # self.seed_tracks_count = random.randint(1, 2)
+        self.seed_tracks_count = 0
 
         # artists are the next best seeds, so mix in
         # one or more random artists depending on how many seeds slots remain
-        self.seed_artists_count = random.randint(
-            2, self.max_seeds - self.seed_tracks_count)
+        self.seed_artists_count = 5
+        # random.randint(2, self.max_seeds - self.seed_tracks_count)
 
         # use genres, only if we have a slots left
-        self.seed_genres_count = self.max_seeds - \
-            self.seed_tracks_count - self.seed_artists_count
+        # self.seed_genres_count = self.max_seeds - \
+        #    self.seed_tracks_count - self.seed_artists_count
+        self.seed_genres_count = 0
 
-        print ('\n\tSeeded using %d tracks, %d artist(s),  %d genre(s)' % (
-            self.seed_tracks_count, self.seed_artists_count, self.seed_genres_count))
+        # print ('\n\tSeeded using %d tracks, %d artist(s),  %d genre(s)' % (
+        #    self.seed_tracks_count, self.seed_artists_count, self.seed_genres_count))
 
     def sample(self, iterable, n):
         """
@@ -155,7 +156,7 @@ class Recommender:
         # For example 120 bpm still works for 90 RPM because
         # 12 pedal strokes at 90 rpm match 3 bars of 120 tempo 4/4 time signature
 
-        if (segment.cadence is not None):
+        if segment.cadence is not None:
             if segment.cadence > 120:
                 attrs.target_tempo = 138
             elif segment.cadence >= 90:
@@ -176,7 +177,7 @@ class Recommender:
 
         if segment.segment_type == "Warmup":
             # happyish, we're warming up
-            #attrs.valence = random.uniform(0.7, 0.9)
+            # attrs.valence = random.uniform(0.7, 0.9)
             # ignore power, get energy going
             attrs.energy = random.uniform(0.5, 0.75)
             # if (segment.power.max_intensity is not None):
@@ -184,21 +185,21 @@ class Recommender:
 
         elif segment.segment_type == "CoolDown":
             # euphoric, we're done
-            #attrs.valence = random.uniform(0.85, 0.95)
+            # attrs.valence = random.uniform(0.85, 0.95)
             # ignore power, high energy celebration
             attrs.energy = random.uniform(0.6, 0.8)
 
         elif segment.segment_type == "FreeRide" \
                 or segment.segment_type == "SteadyState":
-            #attrs.valence = random.uniform(0.6, 9)
-            if (segment.power.max_intensity is not None):
+            # attrs.valence = random.uniform(0.6, 9)
+            if segment.power.max_intensity is not None:
                 attrs.energy = min(segment.power.max_intensity, 0.9)
             else:
                 attrs.energy = random.uniform(0.8, 0.9)  # cooking
 
         elif segment.segment_type == "IntervalsT":
-            #attrs.valence = random.uniform(0.8, 0.9)
-            if (segment.power.max_intensity is not None):
+            # attrs.valence = random.uniform(0.8, 0.9)
+            if segment.power.max_intensity is not None:
                 attrs.energy = min(segment.power.max_intensity, 1)
             else:
                 attrs.energy = random.uniform(0.85, 1)  # working!
@@ -224,6 +225,12 @@ class Recommender:
     def extract_duration_ms(self, json):
         try:
             return json['duration_ms'] - self.crossfade_duration_seconds
+        except KeyError:
+            return 0
+
+    def extract_popularity(self, json):
+        try:
+            return json['popularity']
         except KeyError:
             return 0
 
@@ -254,9 +261,21 @@ class Recommender:
 
         tracks = results['tracks']
 
+        tracks.sort(key=self.extract_popularity, reverse=True)
+
+        print '\trecommended tracks, unfiltered\n'
+
+        for track in tracks:
+            print '\t%s - %s - popularity %s - explicit %s' % (track['name'],
+                                                               track['artists'][0]['name'],
+                                                               track['popularity'],
+                                                               track['explicit'])
+
+        print '\n\n'
+
         # print ('%d recommendations found.' % len(tracks))
 
-        if (not self.allow_explicit_lyrics):
+        if not self.allow_explicit_lyrics:
             # print ('Filtering out tracks with explicit lyrics.')
 
             filtered_tracks = [
@@ -282,7 +301,7 @@ class Recommender:
         # add the filler tracks to provide short duration options for subset-sum
         # not_used_tracks.extend(self.filler_tracks)
 
-        not_used_tracks.sort(key=self.extract_duration_ms, reverse=False)
+        # not_used_tracks.sort(key=self.extract_duration_ms, reverse=False)
 
         # print ('tracks sorted by duration')
 
@@ -320,8 +339,8 @@ class Recommender:
                 duration_matched_tracks.append(not_used_tracks[x])
                 self.used_track_ids.append(not_used_tracks[x]['id'])
 
-        print('\tNeeded %d s of music, got %d s, short by %d s\n' % (segment_duration_ms / 1000,
-                                                                     total_duration_of_found_tracks / 1000, (segment_duration_ms - total_duration_of_found_tracks) / 1000))
+        # print('\tNeeded %d s of music, got %d s, short by %d s\n' % (segment_duration_ms / 1000,
+         #                                                            total_duration_of_found_tracks / 1000, (segment_duration_ms - total_duration_of_found_tracks) / 1000))
 
         # todo, keep sum of shortfall
 
